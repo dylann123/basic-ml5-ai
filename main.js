@@ -163,7 +163,7 @@ let gameloop = () => {
     }
     xOfClosestObstacle = obstacles[0].x;
 
-    if (Math.random() < 0.01 || obstacles.length == 0) {
+    if ( obstacles.length == 0) {
         let height = Math.floor(Math.random() * 30);
         obstacles.push(new Obstacle(canvas.width, canvas.height - height, 20, 10 + height));
     }
@@ -183,7 +183,7 @@ let gameloop = () => {
             jumpConfidence = results[1].confidence;
             noJumpConfidence = results[0].confidence;
         }
-        if (jumpConfidence > 0.8) {
+        if (jumpConfidence > document.getElementById("confidenceToJump").value/100) {
             if (player.canJump) {
                 player.jump();
                 currentJump.jumpState = 0;
@@ -213,3 +213,7 @@ setInterval(() => {
     if (!training)
         window.requestAnimationFrame(gameloop);
 }, 1000 / 60)
+
+document.getElementById("confidenceToJump").addEventListener("mousemove", (e) => {
+    document.getElementById("confidenceValue").innerHTML = document.getElementById("confidenceToJump").value/100;
+})
